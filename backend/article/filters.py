@@ -26,8 +26,15 @@ class MyFilterBackend(filters.DjangoFilterBackend):
         if hasattr(view, 'get_filterset_kwargs'):
             kwargs.update(view.get_filterset_kwargs())
         
-        kwargs['queryset'] = kwargs['queryset'].filter(author__first_name='Kinga')
-        print(f"\033[94mkwargs\033[0m: {kwargs}")
-        # kwargs['MP-attribuet'] = 'hello world'
+        # updating in my own way
+        nested_filter = {}
+        
+        for url_filter in kwargs['data'].keys():
+            if '__' in url_filter:
+                if 'isnull' in url_filter:
+                    nested_filter.update({url_filter: eval(kwargs['data'][url_filter])})
+                else:
+                    nested_filter.update({url_filter: kwargs['data'][url_filter]})
+        kwargs['queryset'] = kwargs['queryset'].filter(**nested_filter)
+
         return kwargs
-    pass
