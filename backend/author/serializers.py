@@ -13,6 +13,7 @@ class AuthorRelatedField(serializers.RelatedField):
     def to_representation(self, instance):
         return {
             'id': instance.id,
-            'full_name': str(instance)
+            'first_name': instance.first_name,
+            'last_name': instance.last_name,
         }
     
