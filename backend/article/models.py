@@ -5,3 +5,6 @@ class Article(models.Model):
     content = models.TextField()
     author = models.ForeignKey('author.Author', models.DO_NOTHING)
     created_dt = models.DateField()
+
+    def __str__(self):
+        return f"{self.name}"
